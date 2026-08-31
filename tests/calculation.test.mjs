@@ -2,7 +2,7 @@
 
 import assert from "node:assert/strict";
 import { calculateState, formatCents } from "../scripts/calculation.js";
-import { createMarkdown } from "../scripts/import-export.js";
+import { createMarkdown, parseImportedJson } from "../scripts/import-export.js";
 import { createInitialState, validateState } from "../scripts/model.js";
 
 // 创建只含一个叶目录的合成状态，便于聚焦验证计算规则。
@@ -145,6 +145,18 @@ function createConfirmedAmount(amount, direction = "add") {
     assert.equal(result.ok, true);
     assert.match(result.content, /合成叶目录 小计：123\.4500 CNY/);
     assert.match(result.content, /合成父目录 小计：123\.4500 CNY/);
+}
+
+// JSON 导入单独返回导出时间，且不会把该临时元数据混入持久化资产状态。
+{
+    const state = createConfirmedState([createConfirmedAmount("24681357.90")]);
+    const exportedAt = "2001-02-03T04:05:00+08:00";
+    const file = { text: async () => JSON.stringify({ ...state, exportedAt }) };
+    const result = await parseImportedJson(file);
+
+    assert.equal(result.ok, true);
+    assert.equal(result.exportedAt, exportedAt);
+    assert.equal(Object.hasOwn(result.state, "exportedAt"), false);
 }
 
 console.log("AssetFold calculation tests passed.");

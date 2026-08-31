@@ -453,6 +453,8 @@ export function createApp({ state, session }) {
     }
     for (const key of Object.keys(state)) delete state[key];
     Object.assign(state, result.state);
+    // 导入文件的导出时间只更新当前页面控件，不进入 localStorage 或 sessionStorage。
+    if (result.exportedAt) elements.exportTime.value = toLocalInput(result.exportedAt);
     renderAll();
     const issues = getRateIssues(state);
     showToast(issues.length > 0 ? `导入完成，发现 ${issues.length} 项汇率提醒` : "JSON 导入完成", issues.length > 0);

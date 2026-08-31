@@ -71,7 +71,7 @@ function appendDirectory(lines, directory, section, path, headingLevel, state, c
   lines.push(`${directory.name} 小计：${formatScale4(directoryTotalFor(calculation, section, path))} CNY`, "");
 }
 
-// 读取并校验 JSON 文件；exportedAt 仅描述文件，不写回当前工作数据。
+// 读取并校验 JSON 文件；导出时间作为页面临时值返回，不写回持久化工作数据。
 export async function parseImportedJson(file) {
   const text = await file.text();
   let parsed;
@@ -80,9 +80,13 @@ export async function parseImportedJson(file) {
   } catch {
     return { ok: false, errors: ["JSON 语法无效"] };
   }
+  // 仅接受可以明确解析的导出时间；缺失或损坏的元数据不阻止资产主体导入。
+  const exportedAt = typeof parsed?.exportedAt === "string" && !Number.isNaN(new Date(parsed.exportedAt).getTime())
+    ? parsed.exportedAt
+    : null;
   if (parsed && typeof parsed === "object") delete parsed.exportedAt;
   const errors = validateState(parsed);
-  return errors.length > 0 ? { ok: false, errors } : { ok: true, state: parsed };
+  return errors.length > 0 ? { ok: false, errors } : { ok: true, state: parsed, exportedAt };
 }
 
 // 使用临时 Blob URL 触发浏览器下载，并在点击后释放对象 URL。
