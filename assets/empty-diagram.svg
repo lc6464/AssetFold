@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72">
+  <style>
+    .branch { stroke: #1a7f37; }
+    .node { fill: #ffffff; stroke: #d0d7de; }
+
+    @media (prefers-color-scheme: dark) {
+      .branch { stroke: #3fb950; }
+      .node { fill: #161b22; stroke: #3d444d; }
+    }
+  </style>
+  <path class="branch" d="M1 13v46" fill="none" stroke-width="2"/>
+  <rect class="node" x="28.5" y="0.5" width="67" height="17.5" rx="4.5"/>
+  <rect class="node" x="28.5" y="27.25" width="67" height="17.5" rx="4.5"/>
+  <rect class="node" x="28.5" y="54" width="67" height="17.5" rx="4.5"/>
+</svg>

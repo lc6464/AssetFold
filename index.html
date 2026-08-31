@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="多币种资产统计与人民币折算工具">
+  <title>AssetFold</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/brand-mark.svg">
+
+  <link rel="stylesheet" href="./styles/app.css">
+  <link rel="modulepreload" href="./scripts/app.js">
+  <link rel="modulepreload" href="./scripts/model.js">
+  <link rel="modulepreload" href="./scripts/calculation.js">
+  <link rel="modulepreload" href="./scripts/storage.js">
+  <link rel="modulepreload" href="./scripts/import-export.js">
+  <link rel="modulepreload" href="./scripts/ui.js">
+  <script type="module" src="./scripts/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand-block">
+        <img class="brand-mark" src="./assets/brand-mark.svg" width="38" height="38" alt="">
+        <div>
+          <p class="eyebrow">资产统计工作台</p>
+          <h1>AssetFold</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="save-status" class="save-status" role="status">已保存</span>
+        <button class="button button-primary" type="button" data-action="add-root-directory">
+          <span aria-hidden="true">＋</span> 新增顶级目录
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-grid" aria-label="资产汇总">
+        <article class="summary-card summary-confirmed">
+          <p>确定资产</p>
+          <strong id="summary-confirmed">¥0.00</strong>
+          <span>累加减去重</span>
+        </article>
+        <article class="summary-card summary-inflow">
+          <p>待定流入</p>
+          <strong id="summary-inflow">+¥0.00</strong>
+          <span>预计增加</span>
+        </article>
+        <article class="summary-card summary-outflow">
+          <p>待定流出</p>
+          <strong id="summary-outflow">−¥0.00</strong>
+          <span>预计减少</span>
+        </article>
+        <article class="summary-card summary-projected">
+          <p>预计资产</p>
+          <strong id="summary-projected">¥0.00</strong>
+          <span>确定与待定合并</span>
+        </article>
+      </section>
+
+      <div id="calculation-alert" class="notice notice-error" hidden role="alert"></div>
+
+      <div class="workspace-layout">
+        <section class="workspace-panel" aria-labelledby="workspace-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">目录与金额</p>
+              <h2 id="workspace-title">资产结构</h2>
+            </div>
+            <div class="section-tabs" role="tablist" aria-label="资产类别">
+              <button id="tab-confirmed" class="section-tab is-active" type="button" role="tab" aria-selected="true" data-action="switch-section" data-section="confirmed">确定资产</button>
+              <button id="tab-pending" class="section-tab" type="button" role="tab" aria-selected="false" data-action="switch-section" data-section="pending">待定资产</button>
+            </div>
+          </div>
+          <div id="tree-workspace" class="tree-workspace"></div>
+        </section>
+
+        <aside class="side-column">
+          <section class="side-panel" aria-labelledby="rate-title">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">人民币折算</p>
+                <h2 id="rate-title">汇率设置</h2>
+              </div>
+              <span id="rate-health" class="status-pill">无需汇率</span>
+            </div>
+
+            <fieldset class="segmented-field">
+              <legend>折算方式</legend>
+              <label>
+                <input type="radio" name="conversion-mode" value="shared-rate" data-action="change-conversion-mode">
+                <span>统一中间汇率</span>
+              </label>
+              <label>
+                <input type="radio" name="conversion-mode" value="per-entry" data-action="change-conversion-mode">
+                <span>单条折算结果</span>
+              </label>
+            </fieldset>
+
+            <div id="rate-list" class="rate-list"></div>
+            <p id="rate-attribution" class="attribution" hidden>
+              自动汇率由 <a href="https://www.exchangerate-api.com" target="_blank" rel="noreferrer">Exchange Rate API</a> 提供。
+            </p>
+          </section>
+
+          <section class="side-panel" aria-labelledby="data-title">
+            <div class="panel-heading compact">
+              <div>
+                <p class="eyebrow">文件</p>
+                <h2 id="data-title">导入与导出</h2>
+              </div>
+            </div>
+
+            <label class="field-label" for="export-time">导出时间</label>
+            <input id="export-time" class="text-input" type="datetime-local" step="60">
+
+            <div class="button-stack">
+              <button class="button button-primary" type="button" data-action="export-markdown">导出 Markdown</button>
+              <button class="button" type="button" data-action="export-json">导出 JSON</button>
+              <button class="button" type="button" data-action="open-import">导入 JSON</button>
+            </div>
+            <input id="json-import" type="file" accept="application/json,.json" hidden>
+            <p class="help-text">JSON 导入会在校验后替换当前数据。</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

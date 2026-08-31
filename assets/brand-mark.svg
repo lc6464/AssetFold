@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38">
+  <style>
+    .frame { fill: #ffffff; stroke: #d0d7de; }
+    .confirmed { fill: #1a7f37; }
+    .pending { fill: #9a6700; }
+
+    @media (prefers-color-scheme: dark) {
+      .frame { fill: #161b22; stroke: #3d444d; }
+      .confirmed { fill: #3fb950; }
+      .pending { fill: #d29922; }
+    }
+  </style>
+  <rect class="frame" x="0.5" y="0.5" width="37" height="37" rx="9.5"/>
+  <path class="confirmed" d="M5 23.2a2 2 0 0 1 2-2h2.7a2 2 0 0 1 2 2V33H5Z"/>
+  <path class="confirmed" d="M15.7 14.8a2 2 0 0 1 2-2h2.6a2 2 0 0 1 2 2V33h-6.6Z"/>
+  <path class="pending" d="M26.3 7a2 2 0 0 1 2-2H31a2 2 0 0 1 2 2v26h-6.7Z"/>
+</svg>
