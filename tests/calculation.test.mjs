@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { calculateState, formatCents } from "../scripts/calculation.js";
 import { createMarkdown, parseImportedJson } from "../scripts/import-export.js";
-import { createInitialState, validateState } from "../scripts/model.js";
+import { createInitialState, formatLocalIso, validateState } from "../scripts/model.js";
 
 // 创建只含一个叶目录的合成状态，便于聚焦验证计算规则。
 function createConfirmedState(items) {
@@ -22,6 +22,12 @@ function createConfirmedAmount(amount, direction = "add") {
         direction,
         note: ""
     };
+}
+
+// 本地 ISO 时间保留原始秒数，自动汇率更新时间不会被截断到整分钟。
+{
+    const date = new Date(2000, 0, 2, 3, 4, 37);
+    assert.match(formatLocalIso(date), /T03:04:37[+-]\d{2}:\d{2}$/);
 }
 
 // 使用带数学常数特征且跨越多个数量级的数列验证批量累加。
