@@ -520,7 +520,7 @@ export function createApp({ state, session }) {
       return;
     }
     const date = new Date(savedAt);
-    elements.saveStatus.textContent = `已保存 ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+    elements.saveStatus.textContent = `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")} 已保存`;
   }
 
   // 在同级目录数组中移动指定目录。

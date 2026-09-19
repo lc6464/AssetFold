@@ -22,15 +22,13 @@
 <body>
   <div class="app-shell">
     <header class="app-header">
-      <div class="brand-block">
+      <a class="brand-link" href="https://github.com/lc6464/AssetFold" target="_blank" rel="noreferrer" aria-label="在 GitHub 打开 AssetFold 项目">
         <img class="brand-mark" src="./assets/brand-mark.svg" width="38" height="38" alt="">
-        <div>
-          <p class="eyebrow">资产统计工作台</p>
-          <h1>AssetFold</h1>
-        </div>
-      </div>
+        <h1>AssetFold</h1>
+        <img class="github-mark" src="./assets/github-mark.svg" width="24" height="24" alt="GitHub">
+      </a>
       <div class="header-actions">
-        <span id="save-status" class="save-status" role="status">已保存</span>
+        <span id="save-status" class="save-status" role="status">— 已保存</span>
         <button class="button button-primary" type="button" data-action="add-root-directory">
           <span aria-hidden="true">＋</span> 新增顶级目录
         </button>
@@ -66,10 +64,7 @@
       <div class="workspace-layout">
         <section class="workspace-panel" aria-labelledby="workspace-title">
           <div class="panel-heading">
-            <div>
-              <p class="eyebrow">目录与金额</p>
-              <h2 id="workspace-title">资产结构</h2>
-            </div>
+            <h2 id="workspace-title">资产结构</h2>
             <div class="section-tabs" role="tablist" aria-label="资产类别">
               <button id="tab-confirmed" class="section-tab is-active" type="button" role="tab" aria-selected="true" data-action="switch-section" data-section="confirmed">确定资产</button>
               <button id="tab-pending" class="section-tab" type="button" role="tab" aria-selected="false" data-action="switch-section" data-section="pending">待定资产</button>
@@ -81,10 +76,7 @@
         <aside class="side-column">
           <section class="side-panel" aria-labelledby="rate-title">
             <div class="panel-heading compact">
-              <div>
-                <p class="eyebrow">人民币折算</p>
-                <h2 id="rate-title">汇率设置</h2>
-              </div>
+              <h2 id="rate-title">汇率设置</h2>
               <span id="rate-health" class="status-pill">无需汇率</span>
             </div>
 
@@ -108,10 +100,7 @@
 
           <section class="side-panel" aria-labelledby="data-title">
             <div class="panel-heading compact">
-              <div>
-                <p class="eyebrow">文件</p>
-                <h2 id="data-title">导入与导出</h2>
-              </div>
+              <h2 id="data-title">导入与导出</h2>
             </div>
 
             <label class="field-label" for="export-time">导出时间</label>

@@ -84,7 +84,7 @@ summary:focus-visible {
   border-bottom: 1px solid var(--line-strong);
 }
 
-.brand-block,
+.brand-link,
 .header-actions,
 .panel-heading,
 .item-toolbar,
@@ -96,20 +96,36 @@ summary:focus-visible {
   gap: 12px;
 }
 
-.brand-mark {
+.brand-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark,
+.github-mark {
   display: block;
   flex: 0 0 auto;
+}
+
+.brand-mark {
   width: 38px;
   height: 38px;
 }
 
-.eyebrow {
-  margin: 0 0 4px;
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.github-mark {
+  width: 24px;
+  height: 24px;
+  opacity: 0.68;
+}
+
+.brand-link:hover .github-mark {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .github-mark {
+    filter: invert(1);
+  }
 }
 
 h1,
@@ -183,8 +199,15 @@ h2 {
 }
 
 .button-danger {
-  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
-  color: var(--danger);
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--on-accent);
+}
+
+.button-danger:hover {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 86%, black);
+  color: var(--on-accent);
 }
 
 .button-small {
@@ -870,10 +893,11 @@ h2 {
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .header-actions .button {
-    flex: 1;
+    flex: 1 1 auto;
   }
 
   .summary-grid {
