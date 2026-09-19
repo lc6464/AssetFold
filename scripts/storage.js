@@ -60,6 +60,13 @@ export function saveSession(session) {
   sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
 }
 
+// 取消尚未执行的保存，并清除工作数据及当前标签页的临时界面状态。
+export function clearStoredData() {
+  clearTimeout(saveTimer);
+  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
+}
+
 // 在 JSON 导入后立即整体替换 localStorage 中的工作数据。
 export function replaceStoredState(state) {
   state.savedAt = formatLocalIso(new Date());

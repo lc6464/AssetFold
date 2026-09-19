@@ -3,6 +3,7 @@
 import {
   createAmountItem,
   createDirectory,
+  createInitialState,
   createNoteItem,
   decodePath,
   encodePath,
@@ -25,7 +26,7 @@ import {
   getRateIssues,
 } from "./calculation.js";
 import { exportJson, exportMarkdown, parseImportedJson } from "./import-export.js";
-import { replaceStoredState, saveSession, saveState } from "./storage.js";
+import { clearStoredData, replaceStoredState, saveSession, saveState } from "./storage.js";
 
 // 创建单实例应用，集中管理 DOM 事件、渲染、持久化和文件操作。
 export function createApp({ state, session }) {
@@ -288,6 +289,10 @@ export function createApp({ state, session }) {
       renderWorkspace();
       return;
     }
+    if (action === "clear-data") {
+      clearAllData();
+      return;
+    }
     if (action === "add-root-directory") {
       state[session.activeSection].directories.push(createDirectory());
       commitStructure();
@@ -359,6 +364,28 @@ export function createApp({ state, session }) {
       return;
     }
     if (action === "open-import") elements.importInput.click();
+  }
+
+  // 经用户确认后清除浏览器存储，并把内存和临时界面恢复为首次打开状态。
+  function clearAllData() {
+    const confirmed = window.confirm("此操作将删除浏览器中保存的全部资产结构和汇率数据，且无法撤销。确定清空吗？");
+    if (!confirmed) return;
+    try {
+      clearStoredData();
+    } catch (error) {
+      showToast(`清空失败：${error instanceof Error ? error.message : "浏览器存储失败"}`, true);
+      return;
+    }
+
+    const initialState = createInitialState();
+    for (const key of Object.keys(state)) delete state[key];
+    Object.assign(state, initialState);
+    session.activeSection = "confirmed";
+    session.closedPaths = [];
+    elements.exportTime.value = toDateTimeLocalValue();
+    elements.saveStatus.textContent = "— 已保存";
+    renderAll();
+    showToast("数据已清空");
   }
 
   // 处理连续文本输入，短防抖保存以避免每个按键同步写 localStorage。
